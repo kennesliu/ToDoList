@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app">
+  <div id="app" class="app-container">
     <h1 class="title">[劉康楝]的工作事項</h1>
     <div class="task-info">
       <div class="task-count">
@@ -15,18 +15,20 @@
         <p>已完成任務: {{ completedTasks.filter(task => task).length }}</p>
       </div>
     </div>
-    <div class="add-task-container">
-      <input v-model="newTask" placeholder="請在此輸入您要新增的任務 ..." class="add-task-input">
-      <button @click="addTask" class="add-task-btn">新增</button>
+    <div class="app-content">
+      <div class="add-task-container">
+        <input v-model="newTask" placeholder="請在此輸入您要新增的任務 ..." class="add-task-input">
+        <button @click="addTask" class="add-task-btn">新增</button>
+      </div>
+      <hr class="separator">
+      <transition-group name="fade" tag="ul" class="task-list">
+        <li v-for="(task, index) in tasks" :key="index" class="task-item">
+          <input type="checkbox" v-model="completedTasks[index]" class="checkbox">
+          <span :class="{ completed: completedTasks[index] }" class="task-text">{{ task }}</span>
+          <button @click="removeTask(index)" class="remove-btn">移除</button>
+        </li>
+      </transition-group>
     </div>
-    <hr class="separator">
-    <transition-group name="fade" tag="ul">
-      <li v-for="(task, index) in tasks" :key="index" class="task-item">
-        <input type="checkbox" v-model="completedTasks[index]" class="checkbox">
-        <span :class="{ completed: completedTasks[index] }" class="task-text">{{ task }}</span>
-        <button @click="removeTask(index)" class="remove-btn">移除</button>
-      </li>
-    </transition-group>
   </div>
 
   <!-- Vue.js CDN -->
